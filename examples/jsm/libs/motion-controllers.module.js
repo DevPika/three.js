@@ -275,6 +275,20 @@ class Component {
    * @param {Object} gamepad - The gamepad object from which the component data should be polled
    */
   updateFromGamepad(gamepad) {
+    // Update the values with latest data from the gamepad
+    this.updateValuesFromGamepad(gamepad);
+
+    // Update the visual response weights based on the current component data
+    Object.values(this.visualResponses).forEach((visualResponse) => {
+      visualResponse.updateFromComponent(this.values);
+    });
+  }
+
+  /**
+   * @description Poll for updated component values based on current gamepad state
+   * @param {Object} gamepad - The gamepad object from which the component data should be polled
+   */
+  updateValuesFromGamepad(gamepad) {
     // Set the state to default before processing other data sources
     this.values.state = Constants.ComponentState.DEFAULT;
 
@@ -321,11 +335,6 @@ class Component {
         this.values.state = Constants.ComponentState.TOUCHED;
       }
     }
-
-    // Update the visual response weights based on the current component data
-    Object.values(this.visualResponses).forEach((visualResponse) => {
-      visualResponse.updateFromComponent(this.values);
-    });
   }
 }
 

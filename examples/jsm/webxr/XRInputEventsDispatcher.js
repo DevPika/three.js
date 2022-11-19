@@ -109,8 +109,13 @@ class XRInputEventsDispatcher extends Object3D {
 
 			if ( motionController ) {
 
-				// Cause the MotionController to poll the Gamepad for data
-				motionController.updateFromGamepad();
+				// Cause each Component to poll the Gamepad for data
+				Object.values( motionController.components ).forEach( ( component ) => {
+
+					component.updateValuesFromGamepad( motionController.xrInputSource.gamepad );
+
+				} );
+				// motionController.updateFromGamepad();
 
 			}
 
